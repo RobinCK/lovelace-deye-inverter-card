@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -21,8 +22,13 @@ jobs:
 
       - run: npm ci
 
+      - name: Read version from package.json
+        id: version
+        run: echo "tag=v$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
       - name: Check that the tag matches package.json
-        run: test "v$(node -p "require('./package.json').version")" = "${GITHUB_REF_NAME}"
+        if: github.ref_type == 'tag'
+        run: test "${{ steps.version.outputs.tag }}" = "${GITHUB_REF_NAME}"
 
       - run: npm run lint
 
@@ -30,7 +36,12 @@ jobs:
 
       - run: npm run build
 
+      - name: Check that dist is up to date
+        run: git diff --exit-code -- dist
+
       - uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          target_commitish: ${{ github.sha }}
           files: dist/deye-inverter-card.js
           generate_release_notes: true

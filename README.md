@@ -243,11 +243,12 @@ The built `dist/deye-inverter-card.js` is committed, so the repository can be us
 ### Releases
 
 1. Update `version` in `package.json` and run `npm run build`.
-2. Commit the change, including `dist/deye-inverter-card.js`.
-3. Create and push a tag that matches the version, for example `v1.1.0`.
+2. Commit the change, including `dist/deye-inverter-card.js`, and push it to `main`.
+3. Run the **Release** workflow from the Actions tab, or push a tag that matches the version, for
+   example `v1.1.0`.
 
-The release workflow builds the card and publishes a GitHub release with
-`deye-inverter-card.js` attached. HACS picks the release up as an update.
+The release workflow builds the card, creates the `v<version>` tag and publishes a GitHub release
+with `deye-inverter-card.js` attached. HACS picks the release up as an update.
 
 ## License
 
