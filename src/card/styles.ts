@@ -88,6 +88,12 @@ export const themeTokens = css`
 
 export const cardLayoutStyles = css`
   :host {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .panels {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
     gap: 8px;

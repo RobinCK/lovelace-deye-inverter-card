@@ -69,7 +69,13 @@ export class DeyeInverterCard extends LitElement {
   }
 
   getGridOptions(): LovelaceGridOptions {
-    return { columns: GRID_COLUMNS, rows: 'auto', min_columns: MIN_GRID_COLUMNS };
+    const hasSeveralPanels = (this.config?.inverters.length ?? 0) > 1;
+
+    return {
+      columns: hasSeveralPanels ? 'full' : GRID_COLUMNS,
+      rows: 'auto',
+      min_columns: MIN_GRID_COLUMNS,
+    };
   }
 
   protected override shouldUpdate(changed: PropertyValues<this>): boolean {
@@ -121,7 +127,7 @@ export class DeyeInverterCard extends LitElement {
       ? this.panels.find((panel) => panel.id === this.popup?.panelId)
       : undefined;
 
-    return html`${this.panels.map((panel) => renderPanel(panel, ctx))}
+    return html`<div class="panels">${this.panels.map((panel) => renderPanel(panel, ctx))}</div>
       <deye-inverter-popup
         .hass=${this.hass}
         .panel=${popupPanel}

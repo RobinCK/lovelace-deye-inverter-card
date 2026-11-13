@@ -123,6 +123,10 @@ entities:
     battery_soc: sensor.custom_override
 ```
 
+Put all inverters into one card: it shows a panel per inverter plus the combined panel, places
+them side by side and wraps them onto new rows on narrow screens. In a sections dashboard a card
+with several inverters spans the full section width by default.
+
 ### Options
 
 | Option        | Type    | Default                         | Description                                                                                           |
