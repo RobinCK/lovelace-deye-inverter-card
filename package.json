@@ -1,6 +1,6 @@
 {
   "name": "lovelace-deye-inverter-card",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Home Assistant Lovelace card for Deye/Sunsynk inverters connected through the Sunsynk/Deye Inverter add-on",
   "type": "module",
   "license": "MIT",

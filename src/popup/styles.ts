@@ -11,6 +11,7 @@ export const popupStyles = css`
     max-height: calc(100vh - 32px);
     padding: 0;
     overflow: auto;
+    overscroll-behavior: contain;
     border: none;
     border-radius: var(--ha-dialog-border-radius, 24px);
     background: var(--ha-card-background, var(--card-background-color));

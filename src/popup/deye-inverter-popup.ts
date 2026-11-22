@@ -6,6 +6,7 @@ import { themeTokens } from '../card/styles';
 import type { PanelModel } from '../data/panels';
 import type { PopupTileId, ResolvedConfig } from '../types/config';
 import type { HomeAssistant } from '../types/ha';
+import { lockScroll, type ScrollUnlock } from '../utils/scroll-lock';
 import { POPUP_DEFINITIONS } from './definitions';
 import { fireMoreInfo } from './parts';
 import { popupStyles } from './styles';
@@ -22,6 +23,13 @@ export class DeyeInverterPopup extends LitElement {
   @property({ attribute: false }) accessor tile: PopupTileId | undefined;
 
   @property({ attribute: false }) accessor config: ResolvedConfig | undefined;
+
+  private unlockScroll: ScrollUnlock | undefined;
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.releaseScroll();
+  }
 
   protected override render(): TemplateResult {
     return html`<dialog
@@ -44,6 +52,7 @@ export class DeyeInverterPopup extends LitElement {
 
     if (isOpen && !dialog.open) {
       dialog.showModal();
+      this.unlockScroll ??= lockScroll(this);
 
       return;
     }
@@ -98,8 +107,14 @@ export class DeyeInverterPopup extends LitElement {
   };
 
   private readonly handleClose = (): void => {
+    this.releaseScroll();
     this.dispatchEvent(new CustomEvent('popup-closed'));
   };
+
+  private releaseScroll(): void {
+    this.unlockScroll?.();
+    this.unlockScroll = undefined;
+  }
 
   private readonly handleBackdropClick = (event: MouseEvent): void => {
     if (event.target === event.currentTarget) {
